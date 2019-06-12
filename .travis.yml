@@ -30,5 +30,5 @@ deploy:
   local-dir: _deploy
   on:
     branch: master
-    condition: '[ -z "$REACT_VERSION" ]'
+    condition: '-z "$REACT_VERSION"'
     node: stable
