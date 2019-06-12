@@ -1,12 +1,23 @@
 language: node_js
 sudo: false
-node_js:
-  - "stable"
-  - "8"
-  - "6"
+matrix:
+  include:
+    - node_js: 'stable'
+    - node_js: 'stable'
+      env: REACT_VERSION=15.0
+    - node_js: 'stable'
+      env: REACT_VERSION=0.14
+    - node_js: '11'
+    - node_js: '10'
+    - node_js: '8'
+    - node_js: '6'
 
 before_install:
   - nvm install-latest-npm
+
+install:
+  - 'npm install'
+  - '[ -z "$REACT_VERSION" ] || npm install --no-save react@$REACT_VERSION react-dom@$REACT_VERSION'
 
 before_deploy:
   - cd example && npm install && cd ..
@@ -19,4 +30,5 @@ deploy:
   local-dir: _deploy
   on:
     branch: master
+    condition: '[ -z "$REACT_VERSION" ]'
     node: stable
